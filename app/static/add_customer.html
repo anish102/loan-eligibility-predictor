@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Customer</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2 class="title">Add Customer</h2>
+      <div class="button-container">
+        <button class="btn btn-back" onclick="back()">Back</button>
+        <button class="btn btn-logout" onclick="logout()">Logout</button>
+      </div>
+      <form id="add-customer-form" class="form">
+        <input type="text" id="name" placeholder="Name" class="input-field" required />
+        <div class="checkbox-container">
+          <label for="is_employed" class="input-label">Employed</label>
+          <input type="checkbox" id="is_employed" />
+        </div>
+        <input type="number" id="income" placeholder="Income" class="input-field" required />
+        <div class="checkbox-container">
+          <label for="is_graduated" class="input-label">Graduated</label>
+          <input type="checkbox" id="is_graduated" />
+        </div>
+        <input
+          type="number"
+          id="residential_assets"
+          placeholder="Residential Assets"
+          class="input-field"
+        />
+        <input
+          type="number"
+          id="commercial_assets"
+          placeholder="Commercial Assets"
+          class="input-field"
+        />
+        <input type="number" id="luxury_assets" placeholder="Luxury Assets" class="input-field" />
+        <input type="number" id="bank_assets" placeholder="Bank Assets" class="input-field" />
+        <input type="number" id="credit_score" placeholder="Credit Score" class="input-field" />
+        <input type="number" id="loan_amount" placeholder="Loan Amount" class="input-field" />
+        <input type="number" id="loan_term" placeholder="Loan Term" class="input-field" required />
+        <div class="checkbox-container">
+          <label for="approval_status" class="input-label"
+            >Approval Status</label
+          >
+          <input type="checkbox" id="approval_status" disabled />
+        </div>
+        <button type="submit" class="btn btn-primary">Add Customer</button>
+      </form>
+      <p id="error-message" class="error"></p>
+    </div>
+    <script src="/static/js/add_customer.js"></script>
+    <script>
+      function logout() {
+        localStorage.removeItem("token");
+        window.location.href = "/static/login.html";
+      }
+      function back() {
+        window.location.href = "/static/customers.html";
+      }
+    </script>
+  </body>
+</html>

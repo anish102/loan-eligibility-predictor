@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loan Eligibility Checker</title>
+    <style>
+      /* Basic Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Body Styles */
+      body {
+        font-family: 'Arial', sans-serif;
+        background-image: url('/static/images/background.png'); /* Background image */
+        background-size: cover;
+        background-position: center;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        text-align: center;
+        margin: 0;
+      }
+
+      /* Container Styles */
+      .container {
+        background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background for content */
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        width: 80%;
+        max-width: 700px;
+        text-align: center;
+      }
+
+      /* Header Styles */
+      header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 30px;
+        font-size: 2rem;
+        color: #fff;
+      }
+
+      header .logo {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 15px;
+      }
+
+      /* Description Styles */
+      .description {
+        font-size: 1.5rem;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        color: #fff;
+      }
+
+      /* Button Styles */
+      .btn {
+        background-color: #3498db;
+        color: white;
+        padding: 15px 30px;
+        font-size: 1.1rem;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        font-weight: bold;
+      }
+
+      .btn:hover {
+        background-color: #2980b9;
+        transform: scale(1.05);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 800px) {
+        header {
+          font-size: 1.9rem;
+        }
+
+        .description {
+          font-size: 1.2rem;
+        }
+
+        .btn {
+          padding: 12px 25px;
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <img src="/static/images/logo.jpg" alt="Logo" class="logo" /> Loan Eligibility Checker
+      </header>
+      <h1 class="description">
+        Welcome to the Loan Eligibility Checker!<br />
+        This system helps you determine whether customers are eligible to get a loan based on various factors such as income, credit score, assets, and more. </br>Simply provide your details, and we'll check your eligibility.
+      </h1>
+      <a href="http://127.0.0.1:8000/static/register.html" class="btn">Get Started</a>
+    </div>
+  </body>
+</html>

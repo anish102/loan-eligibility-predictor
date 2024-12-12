@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customer</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2 class="title">Customer</h2>
+      <div class="button-container">
+        <button class="btn btn-back" onclick="back()">Back</button>
+        <button class="btn btn-logout" onclick="logout()">Logout</button>
+      </div>
+      <form id="edit-customer-form" class="form">
+        <label for="name" class="input-label">Name</label>
+        <input type="text" id="name" class="input-field" required />
+        <div class="checkbox-container">
+          <label for="is_employed" class="input-label">Employed</label>
+          <input type="checkbox" id="is_employed" />
+        </div>
+        <label for="income" class="input-label">Income</label>
+        <input type="number" id="income" class="input-field" required />
+        <div class="checkbox-container">
+          <label for="is_graduated" class="input-label">Graduated</label>
+          <input type="checkbox" id="is_graduated" />
+        </div>
+        <label for="residential_assets" class="input-label"
+          >Residential Assets</label
+        >
+        <input type="number" id="residential_assets" class="input-field" />
+        <label for="commercial_assets" class="input-label"
+          >Commercial Assets</label
+        >
+        <input type="number" id="commercial_assets" class="input-field" />
+        <label for="luxury_assets" class="input-label">Luxury Assets</label>
+        <input type="number" id="luxury_assets" class="input-field" />
+        <label for="bank_assets" class="input-label">Bank Assets</label>
+        <input type="number" id="bank_assets" class="input-field" />
+        <label for="credit_score" class="input-label">Credit Score</label>
+        <input type="number" id="credit_score" class="input-field" />
+        <label for="loan_amount" class="input-label">Loan Amount</label>
+        <input type="number" id="loan_amount" class="input-field" />
+        <label for="loan_term" class="input-label">Loan Term</label>
+        <input type="number" id="loan_term" class="input-field" required />
+        <div class="checkbox-container">
+          <label for="approval_status" class="input-label"
+            >Approval Status</label
+          >
+          <input type="checkbox" id="approval_status" disabled />
+        </div>
+        <button type="submit" class="btn btn-primary">Update Customer</button>
+        <button
+          type="button"
+          id="check-status-button"
+          class="btn btn-secondary"
+        >
+          Check Eligibility
+        </button>
+      </form>
+      <p id="error-message" class="error"></p>
+    </div>
+    <div id="alert-modal" class="modal">
+      <div class="modal-content">
+        <h4 id="modal-message"></h4>
+        <button id="modal-ok-btn" class="btn">OK</button>
+      </div>
+    </div>
+    <script src="/static/js/edit_customer.js"></script>
+    <script>
+      function logout() {
+        localStorage.removeItem("token");
+        window.location.href = "/static/login.html";
+      }
+      function back() {
+        window.location.href = "/static/customers.html";
+      }
+    </script>
+  </body>
+</html>
