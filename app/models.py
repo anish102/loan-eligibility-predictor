@@ -1,6 +1,15 @@
 from datetime import datetime, timezone
 
-from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, String
+from sqlalchemy import (
+    Boolean,
+    Column,
+    DateTime,
+    Float,
+    ForeignKey,
+    Integer,
+    LargeBinary,
+    String,
+)
 from sqlalchemy.orm import relationship
 
 from app.database import Base
@@ -11,8 +20,13 @@ class Bank(Base):
 
     id = Column(String, primary_key=True, index=True)
     name = Column(String, unique=True, index=True)
+    active = Column(Boolean, default=False)
     hashed_password = Column(String)
     customers = relationship("Customer", back_populates="bank")
+    loan_package = relationship("LoanPackage", back_populates="bank")
+    proof_doc = relationship(
+        "BankRegistrationDocument", back_populates="bank", uselist=False
+    )
 
 
 class Customer(Base):
@@ -39,3 +53,25 @@ class Customer(Base):
     approval_status = Column(Boolean)
     bank_id = Column(String, ForeignKey("bank.id"))
     bank = relationship("Bank", back_populates="customers")
+
+
+class LoanPackage(Base):
+    __tablename__ = "loan_package"
+
+    id = Column(Integer, primary_key=True, index=True)
+    loan_amount = Column(Float)
+    interest_rate = Column(Float)
+    loan_term = Column(Integer)
+    loan_type = Column(String, index=True)
+    bank_id = Column(String, ForeignKey("bank.id"))
+    bank = relationship("Bank", back_populates="loan_package")
+
+
+class BankRegistrationDocument(Base):
+    __tablename__ = "files"
+
+    id = Column(Integer, primary_key=True, index=True)
+    filename = Column(String, index=True)
+    file_content = Column(LargeBinary)
+    bank_id = Column(String, ForeignKey("bank.id"))
+    bank = relationship("Bank", back_populates="proof_doc")

@@ -1,5 +1,8 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.database import engine
@@ -22,3 +25,14 @@ app.include_router(bank.router)
 app.include_router(customer.router)
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
+
+
+@app.get("/", response_class=HTMLResponse)
+async def read_home():
+    home_path = os.path.join("app", "static", "home.html")
+    if os.path.exists(home_path):
+        with open(home_path, "r") as file:
+            content = file.read()
+        return HTMLResponse(content=content)
+    else:
+        return HTMLResponse(content="Home page not found", status_code=404)
