@@ -15,6 +15,14 @@ from sqlalchemy.orm import relationship
 from app.database import Base
 
 
+class Admin(Base):
+    __tablename__ = "admin"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String)
+    hashed_password = Column(String)
+
+
 class Bank(Base):
     __tablename__ = "bank"
 

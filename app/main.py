@@ -1,15 +1,27 @@
 import os
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 
-from app.database import engine
+from app.database import engine, get_db
 from app.models import Base
-from app.routers import bank, customer
+from app.routers import admin, bank, customer
 
-app = FastAPI()
+
+@asynccontextmanager
+async def life_span(app: FastAPI):
+    db = next(get_db())
+    try:
+        admin.create_admin(db)
+        yield
+    finally:
+        db.close()
+
+
+app = FastAPI(lifespan=life_span)
 
 app.add_middleware(
     CORSMiddleware,
@@ -21,6 +33,7 @@ app.add_middleware(
 
 Base.metadata.create_all(bind=engine)
 
+app.include_router(admin.router)
 app.include_router(bank.router)
 app.include_router(customer.router)
 

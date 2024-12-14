@@ -13,15 +13,6 @@ from app.models import Bank, BankRegistrationDocument
 router = APIRouter()
 
 
-class BankBase(BaseModel):
-    id: str
-    name: str
-
-
-class BankPass(BankBase):
-    password: str
-
-
 @router.post("/register")
 async def register(
     id: str = Form(...),
