@@ -1,10 +1,11 @@
+import os
 import pickle
 
 import pandas as pd
 
-with open(
-    "/home/user/Desktop/7semProject/Loan_Eligibility_Prediction/app/model.pkl", "rb"
-) as file:
+MODEL_PATH = os.getenv("MODEL_PATH")
+
+with open(MODEL_PATH, "rb") as file:
     model = pickle.load(file)
 
 
