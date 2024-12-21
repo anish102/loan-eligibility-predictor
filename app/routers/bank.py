@@ -1,16 +1,34 @@
+import base64
+import os
 from datetime import timedelta
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, status
 from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordRequestForm
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from app.auth import create_access_token, get_password_hash, verify_password
+from app.auth import (
+    create_access_token,
+    get_current_user,
+    get_password_hash,
+    oauth2_scheme,
+    verify_password,
+)
 from app.database import get_db
 from app.models import Bank, BankRegistrationDocument
 
 router = APIRouter()
+
+ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
+
+
+def get_admin(token: str = Depends(oauth2_scheme)):
+    admin = get_current_user(token)
+    if not admin or admin != ADMIN_USERNAME:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid bank"
+        )
+    return admin
 
 
 @router.post("/register")
@@ -60,6 +78,55 @@ async def login(
         data={"sub": bank_record.id}, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
+
+
+@router.get("/banks")
+async def get_all_banks(admin: str = Depends(get_admin), db: Session = Depends(get_db)):
+    banks = db.query(Bank).all()
+    return banks
+
+
+@router.get("/bank/{bank_id}")
+async def get_bank(
+    bank_id: str,
+    admin: str = Depends(get_admin),
+    db: Session = Depends(get_db),
+):
+    bank = db.query(Bank).filter(Bank.id == bank_id).first()
+    if not bank:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"No bank with id {bank_id} found",
+        )
+    bank_data = {
+        "id": bank.id,
+        "name": bank.name,
+        "active": bank.active,
+    }
+    proof_doc = bank.proof_doc
+    proof_doc_data = None
+    if proof_doc:
+        proof_doc_data = base64.b64encode(proof_doc.file_content).decode("utf-8")
+    return {"bank":bank_data,"proof_doc": proof_doc_data}
+
+
+@router.put("/bank/{bank_id}")
+async def update_bank(
+    bank_id: str,
+    active: bool,
+    admin: str = Depends(get_admin),
+    db: Session = Depends(get_db),
+):
+    bank = db.query(Bank).filter(Bank.id == bank_id).first()
+    if not bank:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"No bank with id {bank_id} found",
+        )
+    bank.active = active
+    db.commit()
+    db.refresh(bank)
+    return {"message": "Bank activated successfully", "bank_id": bank_id}
 
 
 @router.post("/logout")
