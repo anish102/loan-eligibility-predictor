@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+      .container {
+        width: 80%;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .bank-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+      }
+      .bank-card {
+        padding: 15px;
+        background-color: #e0f7fa;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+      .bank-card:hover {
+        transform: scale(1.05);
+      }
+      .bank-card h3 {
+        margin: 0;
+      }
+      .button {
+        padding: 10px;
+        background-color: #00796b;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .button:hover {
+        background-color: #004d40;
+      }
+      .error {
+        color: red;
+        margin-bottom: 10px;
+      }
+      .proof-doc {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Login Form -->
+    <div id="login-form" class="container">
+      <h2>Admin Login</h2>
+      <div id="error-message" class="error" style="display: none"></div>
+
+      <input
+        type="text"
+        id="username"
+        placeholder="Username"
+        required
+      /><br /><br />
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+        required
+      /><br /><br />
+      <button class="button" onclick="login()">Login</button>
+    </div>
+
+    <!-- Admin Dashboard (after login) -->
+    <div id="admin-dashboard" class="container" style="display: none">
+      <h2>Welcome, Admin!</h2>
+      <button class="button" onclick="logout()">Logout</button>
+      <h3>All Banks</h3>
+      <div id="bank-list" class="bank-list"></div>
+    </div>
+
+    <!-- Bank Details -->
+    <div id="bank-details" class="container" style="display: none">
+      <h2>Bank Details</h2>
+      <div id="bank-info"></div>
+      <div class="proof-doc">
+        <h3>Proof Document:</h3>
+        <embed
+          id="proof-doc-pdf"
+          type="application/pdf"
+          width="90%"
+          height="750"
+        />
+        <br></br>
+      </div>
+      <button class="button" onclick="updateBank(true)">Activate Bank</button>
+      <button class="button" onclick="updateBank(false)">
+        Deactivate Bank
+      </button>
+    </div>
+
+    <script>
+      const apiUrl = "http://localhost:8000"; // Change to your FastAPI URL
+      let accessToken = localStorage.getItem("access_token");
+      let selectedBankId = null;
+
+      // Handle login form submission
+      async function login() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        const loginData = new URLSearchParams();
+        loginData.append("username", username);
+        loginData.append("password", password);
+
+        try {
+          const response = await fetch(`${apiUrl}/admin`, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: loginData,
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            accessToken = data.access_token;
+            localStorage.setItem("access_token", accessToken);
+            document.getElementById("login-form").style.display = "none";
+            loadBanks();
+          } else {
+            const errorData = await response.json();
+            showError(errorData.detail);
+          }
+        } catch (error) {
+          showError("An error occurred while logging in.");
+        }
+      }
+
+      // Show error message
+      function showError(message) {
+        document.getElementById("error-message").innerText = message;
+        document.getElementById("error-message").style.display = "block";
+      }
+
+      // Fetch all banks
+      async function loadBanks() {
+        try {
+          const response = await fetch(`${apiUrl}/banks`, {
+            method: "GET",
+            headers: { Authorization: `Bearer ${accessToken}` },
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            const bankList = document.getElementById("bank-list");
+            bankList.innerHTML = ""; // Clear previous content
+
+            data.forEach((bank) => {
+              const bankCard = document.createElement("div");
+              bankCard.className = "bank-card";
+              bankCard.onclick = () => getBankDetails(bank.id);
+
+              bankCard.innerHTML = `
+                        <h3>${bank.name}</h3>
+                        <p>Status: ${bank.active ? "Active" : "Inactive"}</p>
+                    `;
+
+              bankList.appendChild(bankCard);
+            });
+
+            document.getElementById("admin-dashboard").style.display = "block";
+          } else {
+            showError("Failed to load banks.");
+          }
+        } catch (error) {
+          showError("An error occurred while fetching bank data.");
+        }
+      }
+
+      // View details of a specific bank
+      async function getBankDetails(bankId) {
+        selectedBankId = bankId;
+
+        try {
+          const response = await fetch(`${apiUrl}/bank/${bankId}`, {
+            method: "GET",
+            headers: { Authorization: `Bearer ${accessToken}` },
+          });
+          if (response.ok) {
+            let data = await response.json();
+            let bank = data.bank;
+            let proofDoc = data.proof_doc;
+
+            let bankInfo = `
+                    <p><strong>Name:</strong> ${bank.name}</p>
+                    <p><strong>Status:</strong> ${
+                      bank.active ? "Active" : "Inactive"
+                    }</p>
+            `;
+            document.getElementById("bank-info").innerHTML = bankInfo;
+
+            if (proofDoc) {
+              document.getElementById("proof-doc-pdf").style.display = "none";
+              document.getElementById("proof-doc-pdf").style.display = "block";
+              document.getElementById("proof-doc-pdf").src =
+                "data:application/pdf;base64," + proofDoc;
+            }
+
+            document.getElementById("bank-details").style.display = "block";
+          } else {
+            showError("Failed to load bank details.");
+          }
+        } catch (error) {
+          showError("An error occurred while fetching bank details.");
+        }
+      }
+
+      // Update bank status (activate or deactivate)
+      async function updateBank(isActive) {
+        try {
+          const response = await fetch(`${apiUrl}/bank/${selectedBankId}`, {
+            method: "PUT",
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ active: isActive }),
+          });
+
+          if (response.ok) {
+            alert("Bank updated successfully!");
+            goBackToBanks();
+          } else {
+            const errorData = await response.json();
+            showError(errorData.detail);
+          }
+        } catch (error) {
+          showError("An error occurred while updating the bank.");
+        }
+      }
+
+      // Go back to the bank list
+      function goBackToBanks() {
+        document.getElementById("bank-details").style.display = "none";
+        loadBanks();
+      }
+
+      // Logout functionality
+      function logout() {
+        localStorage.removeItem("access_token");
+        accessToken = null;
+        document.getElementById("admin-dashboard").style.display = "none";
+        document.getElementById("login-form").style.display = "block";
+      }
+    </script>
+  </body>
+</html>
