@@ -48,10 +48,10 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
                 detail="Token has expired",
                 headers={"WWW-Authenticate": "Bearer"},
             )
-        bank_id: str = payload.get("sub")
-        if bank_id is None:
+        user_id: str = payload.get("sub")
+        if user_id is None:
             raise credentials_exception
-        return bank_id
+        return user_id
     except JWTError:
         raise credentials_exception
 
