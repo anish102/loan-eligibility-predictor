@@ -5,6 +5,7 @@ from datetime import timedelta
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, status
 from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordRequestForm
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app.auth import (
@@ -20,6 +21,10 @@ from app.models import Bank, BankRegistrationDocument
 router = APIRouter()
 
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
+
+
+class BankActive(BaseModel):
+    active: bool
 
 
 def get_admin(token: str = Depends(oauth2_scheme)):
@@ -73,6 +78,8 @@ async def login(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid credentials",
         )
+    if not bank_record.active:
+        raise HTTPException(detail="Your account is not activated.")
     access_token_expires = timedelta(minutes=30)
     access_token = create_access_token(
         data={"sub": bank_record.id}, expires_delta=access_token_expires
@@ -107,13 +114,13 @@ async def get_bank(
     proof_doc_data = None
     if proof_doc:
         proof_doc_data = base64.b64encode(proof_doc.file_content).decode("utf-8")
-    return {"bank":bank_data,"proof_doc": proof_doc_data}
+    return {"bank": bank_data, "proof_doc": proof_doc_data}
 
 
 @router.put("/bank/{bank_id}")
 async def update_bank(
     bank_id: str,
-    active: bool,
+    bank_status: BankActive,
     admin: str = Depends(get_admin),
     db: Session = Depends(get_db),
 ):
@@ -123,7 +130,7 @@ async def update_bank(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"No bank with id {bank_id} found",
         )
-    bank.active = active
+    bank.active = bank_status.active
     db.commit()
     db.refresh(bank)
     return {"message": "Bank activated successfully", "bank_id": bank_id}
