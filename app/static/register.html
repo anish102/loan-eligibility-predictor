@@ -4,38 +4,71 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register</title>
-    <link rel="stylesheet" href="/static/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
   </head>
-  <body>
-    <div class="login_container">
-      <h2 class="title">Register</h2>
+  <body
+    class="d-flex justify-content-center align-items-center min-vh-100 bg-dark text-light"
+  >
+    <div
+      class="container p-4 shadow-sm bg-white rounded"
+      style="max-width: 500px; width: 100%"
+    >
+      <h2 class="text-center mb-4 text-dark">Register</h2>
       <form id="register-form" class="form">
-        <input
-          type="text"
-          id="id"
-          class="input-field"
-          placeholder="Bank ID"
-          required
-        />
-        <input
-          type="text"
-          id="name"
-          class="input-field"
-          placeholder="Bank Name"
-          required
-        />
-        <input
-          type="password"
-          id="password"
-          class="input-field"
-          placeholder="Password"
-          required
-        />
-        <button type="submit" class="btn btn-primary">Register</button>
+        <div class="form-group">
+          <label for="id" class="font-weight-bold text-dark">Bank ID</label>
+          <input
+            type="text"
+            id="id"
+            class="form-control"
+            placeholder="Bank ID"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="name" class="font-weight-bold text-dark">Bank Name</label>
+          <input
+            type="text"
+            id="name"
+            class="form-control"
+            placeholder="Bank Name"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password" class="font-weight-bold text-dark"
+            >Password</label
+          >
+          <input
+            type="password"
+            id="password"
+            class="form-control"
+            placeholder="Password"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="registration-document" class="font-weight-bold text-dark"
+            >Registration Document</label
+          >
+          <input
+            type="file"
+            id="registration-document"
+            class="form-control-file"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">
+          Register
+        </button>
       </form>
-      <p id="error-message" class="error"></p>
-      <p class="redirect-link">
-        Already have an account? <a href="login.html">Login</a>
+      <p id="error-message" class="error mt-3 text-danger text-center"></p>
+      <p class="redirect-link mt-3 text-dark text-center">
+        Already have an account?
+        <a href="login.html" class="text-primary">Login</a>
       </p>
     </div>
     <script src="/static/js/register.js"></script>
