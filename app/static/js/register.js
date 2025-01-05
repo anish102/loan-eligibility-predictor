@@ -1,6 +1,5 @@
-const API_URL = "http://localhost:8000"; // Update with your FastAPI backend URL
+const API_URL = "http://localhost:8000";
 
-// Handle register form submission
 document
   .getElementById("register-form")
   .addEventListener("submit", async function (event) {
@@ -9,20 +8,29 @@ document
     const id = document.getElementById("id").value;
     const name = document.getElementById("name").value;
     const password = document.getElementById("password").value;
+    const registrationDocument = document.getElementById(
+      "registration-document"
+    ).files[0];
 
-    const registerData = { id, name, password };
+    if (!registrationDocument) {
+      document.getElementById("error-message").textContent =
+        "Please upload a registration document.";
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("id", id);
+    formData.append("name", name);
+    formData.append("password", password);
+    formData.append("file", registrationDocument);
 
     try {
       const response = await fetch(`${API_URL}/register`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(registerData),
+        body: formData,
       });
 
       if (response.ok) {
-        // Redirect to login page after successful registration
         window.location.href = "login.html";
       } else {
         const errorData = await response.json();
