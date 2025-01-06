@@ -4,67 +4,122 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Customer</title>
-    <link rel="stylesheet" href="/static/css/style.css" />
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <div class="container">
-      <h2 class="title">Customer</h2>
-      <div class="button-container">
-        <button class="btn btn-back" onclick="back()">Back</button>
-        <button class="btn btn-logout" onclick="logout()">Logout</button>
+    <div class="container mt-5">
+      <h2 class="text-center mb-4">Customer</h2>
+      <div class="d-flex justify-content-between mb-4">
+        <button class="btn btn-secondary" onclick="back()">Back</button>
+        <button class="btn btn-danger" onclick="logout()">Logout</button>
       </div>
-      <form id="edit-customer-form" class="form">
-        <label for="name" class="input-label">Name</label>
-        <input type="text" id="name" class="input-field" required />
-        <div class="checkbox-container">
-          <label for="is_employed" class="input-label">Employed</label>
-          <input type="checkbox" id="is_employed" />
+      <form id="edit-customer-form">
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" id="name" class="form-control" required />
         </div>
-        <label for="income" class="input-label">Income</label>
-        <input type="number" id="income" class="input-field" required />
-        <div class="checkbox-container">
-          <label for="is_graduated" class="input-label">Graduated</label>
-          <input type="checkbox" id="is_graduated" />
+        <div class="mb-3 form-check">
+          <input type="checkbox" id="is_employed" class="form-check-input" />
+          <label for="is_employed" class="form-check-label">Employed</label>
         </div>
-        <label for="residential_assets" class="input-label"
-          >Residential Assets</label
-        >
-        <input type="number" id="residential_assets" class="input-field" />
-        <label for="commercial_assets" class="input-label"
-          >Commercial Assets</label
-        >
-        <input type="number" id="commercial_assets" class="input-field" />
-        <label for="luxury_assets" class="input-label">Luxury Assets</label>
-        <input type="number" id="luxury_assets" class="input-field" />
-        <label for="bank_assets" class="input-label">Bank Assets</label>
-        <input type="number" id="bank_assets" class="input-field" />
-        <label for="credit_score" class="input-label">Credit Score</label>
-        <input type="number" id="credit_score" class="input-field" />
-        <label for="loan_amount" class="input-label">Loan Amount</label>
-        <input type="number" id="loan_amount" class="input-field" />
-        <label for="loan_term" class="input-label">Loan Term</label>
-        <input type="number" id="loan_term" class="input-field" required />
-        <div class="checkbox-container">
-          <label for="approval_status" class="input-label"
+        <div class="mb-3">
+          <label for="income" class="form-label">Income</label>
+          <input type="number" id="income" class="form-control" required />
+        </div>
+        <div class="mb-3 form-check">
+          <input type="checkbox" id="is_graduated" class="form-check-input" />
+          <label for="is_graduated" class="form-check-label">Graduated</label>
+        </div>
+        <div class="mb-3">
+          <label for="residential_assets" class="form-label"
+            >Residential Assets</label
+          >
+          <input type="number" id="residential_assets" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label for="commercial_assets" class="form-label"
+            >Commercial Assets</label
+          >
+          <input type="number" id="commercial_assets" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label for="luxury_assets" class="form-label">Luxury Assets</label>
+          <input type="number" id="luxury_assets" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label for="bank_assets" class="form-label">Bank Assets</label>
+          <input type="number" id="bank_assets" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label for="credit_score" class="form-label">Credit Score</label>
+          <input type="number" id="credit_score" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label for="loan_amount" class="form-label">Loan Amount</label>
+          <input type="number" id="loan_amount" class="form-control" />
+        </div>
+        <div class="mb-3">
+          <label for="loan_term" class="form-label">Loan Term</label>
+          <input type="number" id="loan_term" class="form-control" required />
+        </div>
+        <div class="mb-3 form-check">
+          <input
+            type="checkbox"
+            id="approval_status"
+            class="form-check-input"
+            disabled
+          />
+          <label for="approval_status" class="form-check-label"
             >Approval Status</label
           >
-          <input type="checkbox" id="approval_status" disabled />
         </div>
-        <button type="submit" class="btn btn-primary">Update Customer</button>
+        <button type="submit" class="btn btn-primary w-100 mb-3">
+          Update Customer
+        </button>
         <button
           type="button"
           id="check-status-button"
-          class="btn btn-secondary"
+          class="btn btn-secondary w-100"
         >
           Check Eligibility
         </button>
       </form>
-      <p id="error-message" class="error"></p>
+      <p id="error-message" class="text-danger mt-3"></p>
     </div>
-    <div id="alert-modal" class="modal">
-      <div class="modal-content">
-        <h4 id="modal-message"></h4>
-        <button id="modal-ok-btn" class="btn">OK</button>
+    <div
+      id="alert-modal"
+      class="modal fade"
+      tabindex="-1"
+      aria-labelledby="alertModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="alertModalLabel">Alert</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <h4 id="modal-message"></h4>
+          </div>
+          <div class="modal-footer">
+            <button
+              id="modal-ok-btn"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              OK
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <script src="/static/js/edit_customer.js"></script>
