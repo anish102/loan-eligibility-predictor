@@ -4,14 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Customer List</title>
-    <link rel="stylesheet" href="/static/css/style.css" />
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <div class="container">
-      <h2 class="title">Customers</h2>
-      <button class="btn btn-logout" onclick="logout()">Logout</button>
-      <table id="customers-table" class="table">
-        <thead>
+    <div class="container mt-5">
+      <h2 class="text-center mb-4">Customers</h2>
+      <div class="d-flex justify-content-between mb-4">
+        <button class="btn btn-danger" onclick="logout()">Logout</button>
+
+        <button
+          class="btn btn-success"
+          onclick="window.location.href='/static/add_customer.html'"
+        >
+          Add Customer
+        </button>
+      </div>
+
+      <table
+        id="customers-table"
+        class="table table-striped table-bordered table-hover"
+      >
+        <thead class="table-dark">
           <tr>
             <th>Name</th>
             <th>Income</th>
@@ -22,12 +38,6 @@
         </thead>
         <tbody id="customers-list"></tbody>
       </table>
-      <button
-        class="btn btn-primary"
-        onclick="window.location.href='/static/add_customer.html'"
-      >
-        Add Customer
-      </button>
     </div>
     <script src="/static/js/customers.js"></script>
     <script>
