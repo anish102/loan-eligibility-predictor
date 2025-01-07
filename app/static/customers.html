@@ -13,14 +13,13 @@
     <div class="container mt-5">
       <h2 class="text-center mb-4">Customers</h2>
       <div class="d-flex justify-content-between mb-4">
-        <button class="btn btn-danger" onclick="logout()">Logout</button>
-
         <button
           class="btn btn-success"
           onclick="window.location.href='/static/add_customer.html'"
         >
           Add Customer
         </button>
+        <button class="btn btn-danger" onclick="logout()">Logout</button>
       </div>
 
       <table
@@ -33,7 +32,6 @@
             <th>Income</th>
             <th>Credit Score</th>
             <th>Loan Amount</th>
-            <th>Action</th>
           </tr>
         </thead>
         <tbody id="customers-list"></tbody>
@@ -44,9 +42,6 @@
       function logout() {
         localStorage.removeItem("token");
         window.location.href = "/static/login.html";
-      }
-      function back() {
-        window.location.href = "/static/customers.html";
       }
     </script>
   </body>

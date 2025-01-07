@@ -42,11 +42,11 @@ document.addEventListener("DOMContentLoaded", async () => {
           <td>${customer.income}</td>
           <td>${customer.credit_score}</td>
           <td>${customer.loan_amount}</td>
-          <td class="action">
-            <button onclick="window.location.href='/static/edit_customer.html?id=${customer.id}'">View</button>
-            <button onclick="deleteCustomer(${customer.id})">Delete</button>
-          </td>
         `;
+        row.addEventListener("click", () => {
+          window.location.href = `/static/edit_customer.html?id=${customer.id}`;
+        });
+
         customersTable.appendChild(row);
       });
     } else {
@@ -60,30 +60,3 @@ document.addEventListener("DOMContentLoaded", async () => {
       "An error occurred. Please try again.";
   }
 });
-
-// Delete customer
-async function deleteCustomer(customerId) {
-  if (!isAuthenticated()) {
-    window.location.href = "/static/login.html"; // Redirect to login if no token
-    return;
-  }
-
-  try {
-    const response = await fetch(`${API_URL}/customer/${customerId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-
-    if (response.ok) {
-      window.location.reload(); // Reload the page to reflect the changes
-    } else {
-      const errorData = await response.json();
-      alert(errorData.detail || "Error deleting customer");
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    alert("An error occurred. Please try again.");
-  }
-}
