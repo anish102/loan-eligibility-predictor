@@ -172,6 +172,41 @@ document
     }
   });
 
+//Delete customer
+async function deleteCustomer() {
+  if (!isAuthenticated()) {
+    window.location.href = "/static/login.html"; // Redirect to login page if no valid token
+    return;
+  }
+
+  const confirmDelete = confirm(
+    "Are you sure you want to delete this customer? This action cannot be undone."
+  );
+  if (!confirmDelete) {
+    return; // Exit if the user cancels the confirmation dialog
+  }
+
+  try {
+    const response = await fetch(`${API_URL}/customer/${customerId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+
+    if (response.ok) {
+      alert("Customer deleted successfully!");
+      window.location.href = "/static/customers.html"; // Redirect to customers list page
+    } else {
+      const errorData = await response.json();
+      alert(errorData.detail || "Error deleting customer");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("An error occurred. Please try again.");
+  }
+}
+
 function showAlert(message) {
   const modal = document.getElementById("alert-modal");
   const modalMessage = document.getElementById("modal-message");
