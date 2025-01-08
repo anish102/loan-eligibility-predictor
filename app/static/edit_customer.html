@@ -82,9 +82,16 @@
         <button
           type="button"
           id="check-status-button"
-          class="btn btn-secondary w-100"
+          class="btn btn-secondary w-100 mb-3"
         >
           Check Eligibility
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger w-100"
+          onclick="deleteCustomer()"
+        >
+          Delete Customer
         </button>
       </form>
       <p id="error-message" class="text-danger mt-3"></p>
