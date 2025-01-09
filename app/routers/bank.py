@@ -79,7 +79,10 @@ async def login(
             detail="Invalid credentials",
         )
     if not bank_record.active:
-        raise HTTPException(detail="Your account is not activated.")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Your account is not activated.",
+        )
     access_token_expires = timedelta(minutes=30)
     access_token = create_access_token(
         data={"sub": bank_record.id}, expires_delta=access_token_expires
