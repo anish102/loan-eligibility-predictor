@@ -59,10 +59,13 @@ class LoanPackage(Base):
     __tablename__ = "loan_package"
 
     id = Column(Integer, primary_key=True, index=True)
+    loan_name = Column(String, index=True)
     loan_amount = Column(Float)
+    min_income = Column(Float)
+    min_assets = Column(Float)
+    min_credit_score = Column(Integer)
     interest_rate = Column(Float)
     loan_term = Column(Integer)
-    loan_type = Column(String, index=True)
     bank_id = Column(String, ForeignKey("bank.id"))
     bank = relationship("Bank", back_populates="loan_package")
 
