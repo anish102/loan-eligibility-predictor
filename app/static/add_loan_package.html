@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customers</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body style="background-color: #c8cebd">
+    <header
+      class="text-white py-3"
+      style="padding-left: 50px; padding-right: 50px; background-color: #4a5d23"
+    >
+      <div class="d-flex justify-content-between align-items-center">
+        <div style="display: flex; align-items: center">
+          <a href="#" style="text-decoration: none; color: white">
+            <strong>
+              <h1 style="font-family: 'Times New Roman'; font-weight: bold">
+                <img
+                  src="/static/images/logo.jpg"
+                  alt="Logo"
+                  style="
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    margin-right: 15px;
+                  "
+                />Loan Prediction System
+              </h1>
+            </strong>
+          </a>
+          <nav style="padding-left: 50px">
+            <ul class="nav">
+              <li class="nav-item">
+                <a
+                  class="nav-link text-white"
+                  href="/static/customers.html"
+                  style="font-weight: bold"
+                  >Customers</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link text-white"
+                  style="font-weight: bold"
+                  href="/static/loan_packages.html"
+                  >Loan Packages</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <button
+          class="btn"
+          onclick="logout()"
+          style="background-color: #6b2f37; color: white; font-weight: bold"
+        >
+          Logout
+        </button>
+      </div>
+    </header>
+    <div class="container mt-5">
+      <h2 class="text-center mb-4">Add Package</h2>
+      <form id="add-package-form" class="needs-validation" novalidate>
+        <div class="d-flex mb-4">
+          <button
+            class="btn btn-secondary"
+            style="margin-right: 25px"
+            onclick="back()"
+          >
+            Back
+          </button>
+          <button
+            type="submit"
+            class="btn"
+            style="background-color: #6b2f37; color: white"
+          >
+            Save
+          </button>
+        </div>
+        <div class="mb-3">
+          <label for="loan_name" class="form-label">Name</label>
+          <input
+            type="text"
+            id="loan_name"
+            placeholder="Enter name"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="loan_amount" class="form-label">Amount</label>
+          <input
+            type="number"
+            id="loan_amount"
+            placeholder="Enter loan amount"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="min_income" class="form-label">Minimum Income</label>
+          <input
+            type="number"
+            id="min_income"
+            placeholder="Enter minimum income required"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="min_assets" class="form-label">Minimum Assets</label>
+          <input
+            type="number"
+            id="min_assets"
+            placeholder="Enter minimum assets required"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="min_credit_score" class="form-label"
+            >Minimum Credit Score</label
+          >
+          <input
+            type="number"
+            id="min_credit_score"
+            placeholder="Enter minimum credit score required"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="loan_term" class="form-label">Loan Term</label>
+          <input
+            type="number"
+            id="loan_term"
+            placeholder="Enter loan term"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="interest_rate" class="form-label">Interest Rate</label>
+          <input
+            type="number"
+            id="interest_rate"
+            placeholder="Enter interest rate"
+            class="form-control"
+            required
+          />
+        </div>
+      </form>
+      <p id="error-message" class="text-danger mt-3"></p>
+    </div>
+
+    <script src="/static/js/add_package.js"></script>
+    <script>
+      function logout() {
+        localStorage.removeItem("token");
+        window.location.href = "/static/login.html";
+      }
+      function back() {
+        window.location.href = "/static/loan_packages.html";
+      }
+    </script>
+  </body>
+</html>
