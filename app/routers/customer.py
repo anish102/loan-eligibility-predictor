@@ -5,7 +5,8 @@ from sqlalchemy.orm import Session
 from app.auth import get_current_user, oauth2_scheme
 from app.database import get_db
 from app.load_model import predict_approval_status
-from app.models import Bank, Customer
+from app.loan_package_recommendation import loan_package_recommender
+from app.models import Bank, Customer, LoanPackage
 
 router = APIRouter()
 
@@ -23,6 +24,10 @@ class CustomerBase(BaseModel):
     loan_amount: float
     loan_term: int
     approval_status: bool | None = None
+
+
+class CustomerLoan(CustomerBase):
+    loan_package: int | None = None
 
 
 def get_current_bank(
@@ -136,6 +141,24 @@ async def check_approval_status(
     else:
         message = f"Customer {customer.name} is not eligible for getting loan."
     return {"approval_status": approval_status, "message": message}
+
+
+@router.put("/recommend_loan_package/{customer_id}")
+async def recommend_loan_package(
+    customer_id: int,
+    customer: CustomerLoan,
+    bank: Bank = Depends(get_current_bank),
+    db: Session = Depends(get_db),
+):
+    customer_data = customer.model_dump()
+    if not customer_data["approval_status"]:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=f"Customer with id {customer_id} is not eligible for getting loan!",
+        )
+    packages = db.query(LoanPackage).filter(LoanPackage.bank_id == bank.id).all()
+    package_ids = loan_package_recommender(packages, customer_data)
+    return {"message": "Packages retrieved successfully", "packages": package_ids}
 
 
 @router.delete("/customer/{customer_id}")
