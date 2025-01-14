@@ -17,7 +17,6 @@ function isAuthenticated() {
   return true;
 }
 
-// Fetch the customer data and prefill the form
 document.addEventListener("DOMContentLoaded", async () => {
   if (!isAuthenticated()) {
     window.location.href = "/static/login.html"; // Redirect to login page if no valid token
@@ -50,6 +49,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       document.getElementById("loan_term").value = customer.loan_term;
       document.getElementById("approval_status").checked =
         customer.approval_status;
+
+      // Show or hide Best Package button based on approval status
+      const bestPackageButton = document.getElementById(
+        "recommend-package-button"
+      );
+      if (customer.approval_status) {
+        bestPackageButton.style.display = "inline-block";
+      } else {
+        bestPackageButton.style.display = "none";
+      }
     } else {
       const errorData = await response.json();
       alert(errorData.detail || "Error fetching customer data");
@@ -112,7 +121,7 @@ document
 
 // Check approval status button logic
 document
-  .getElementById("check-status-button")
+  .getElementById("recommend-package-button")
   .addEventListener("click", async function (event) {
     event.preventDefault(); // Prevent form submission
 
@@ -134,11 +143,12 @@ document
       loan_amount:
         parseFloat(document.getElementById("loan_amount").value) || 0,
       loan_term: parseFloat(document.getElementById("loan_term").value) || 0,
+      approval_status: document.getElementById("approval_status").checked,
     };
 
     try {
       const response = await fetch(
-        `${API_URL}/check_approval_status/${customerId}`,
+        `${API_URL}/recommend_loan_package/${customerId}`,
         {
           method: "PUT",
           headers: {
@@ -150,27 +160,66 @@ document
       );
 
       if (!response.ok) {
-        throw new Error("Error checking approval status");
+        throw new Error("Error retrieving loan package");
       }
 
       const data = await response.json();
-      const approvalStatus = data.approval_status;
+      const loanPackages = data.packages;
       const message = data.message;
-
-      // Display approval status in the UI
-      const approvalStatusCheckbox = document.getElementById("approval_status");
-      approvalStatusCheckbox.checked = approvalStatus;
 
       // Optionally, display the message somewhere in the UI
       if (message) {
         showAlert(message);
       }
+
+      // Populate and display the modal with loan packages
+      const loanPackagesList = document.getElementById("loan-packages-list");
+      loanPackagesList.innerHTML = ""; // Clear any existing content
+
+      if (loanPackages.length === 0) {
+        loanPackagesList.innerHTML = "<p>No suitable loan packages found.</p>";
+      } else {
+        loanPackages.forEach((package) => {
+          const packageCard = document.createElement("div");
+          packageCard.classList.add("package-card");
+
+          packageCard.innerHTML = `
+            <h5>${package.loan_name}</h5>
+            <p><strong>Loan Amount:</strong> ${package.loan_amount}</p>
+            <p><strong>Min Income:</strong> ${package.min_income}</p>
+            <p><strong>Min Assets:</strong> ${package.min_assets}</p>
+            <p><strong>Min Credit Score:</strong> ${package.min_credit_score}</p>
+            <p><strong>Interest Rate:</strong> ${package.interest_rate}%</p>
+            <p><strong>Loan Term:</strong> ${package.loan_term} montsh</p>
+          `;
+
+          loanPackagesList.appendChild(packageCard);
+        });
+      }
+
+      // Show the modal
+      const modal = document.getElementById("loan-package-modal");
+      modal.style.display = "block";
     } catch (error) {
       console.error("Error:", error);
       document.getElementById("error-message").textContent =
-        "Failed to check approval status";
+        "Failed to retrieve loan packages";
     }
   });
+
+// Close the modal when the close button is clicked
+document.getElementById("close-modal").addEventListener("click", function () {
+  const modal = document.getElementById("loan-package-modal");
+  modal.style.display = "none";
+});
+
+// Close the modal if the user clicks anywhere outside of the modal
+window.addEventListener("click", function (event) {
+  const modal = document.getElementById("loan-package-modal");
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+});
 
 //Delete customer
 async function deleteCustomer() {
