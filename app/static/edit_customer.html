@@ -8,6 +8,7 @@
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <style rel="stylesheet" href="/static/css/style.css"></style>
   </head>
   <body style="background-color: #c8cebd">
     <header
@@ -91,6 +92,14 @@
           </button>
           <button
             type="button"
+            id="recommend-package-button"
+            style="margin-right: 25px"
+            class="btn btn-secondary"
+          >
+            Recommended Packages
+          </button>
+          <button
+            type="button"
             class="btn btn-danger"
             onclick="deleteCustomer()"
           >
@@ -158,6 +167,15 @@
         </div>
       </form>
       <p id="error-message" class="text-danger mt-3"></p>
+    </div>
+    <div id="loan-package-modal" class="modal">
+      <div class="modal-content">
+        <h4>Recommended Loan Packages</h4>
+        <div id="loan-packages-list"></div>
+      </div>
+      <div class="modal-footer">
+        <button id="close-modal" class="modal-close btn">Close</button>
+      </div>
     </div>
     <div
       id="alert-modal"
