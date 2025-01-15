@@ -180,3 +180,26 @@ async def delete_customer(
     db.delete(existing_customer)
     db.commit()
     return {"message": "Customer deleted successfully", "customer_id": customer_id}
+
+
+@router.get("/customers/overview")
+async def get_customers_overview(
+    bank: Bank = Depends(get_current_bank), db: Session = Depends(get_db)
+):
+    total_customers = db.query(Customer).filter(Customer.bank_id == bank.id).count()
+    loan_approved_customers = (
+        db.query(Customer)
+        .filter(Customer.bank_id == bank.id, Customer.approval_status == True)
+        .count()
+    )
+    latest_customer = (
+        db.query(Customer)
+        .filter(Customer.bank_id == bank.id)
+        .order_by(Customer.id.desc())
+        .first()
+    ).name
+    return {
+        "total_customers": total_customers,
+        "loan_approved_customers": loan_approved_customers,
+        "latest_customer": latest_customer,
+    }
