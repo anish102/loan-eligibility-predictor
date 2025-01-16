@@ -116,3 +116,29 @@ async def delete_customer(
     db.delete(existing_package)
     db.commit()
     return {"message": "Package deleted successfully", "customer_id": package_id}
+
+
+@router.get("/packages/overview")
+async def get_packages_overview(
+    bank: Bank = Depends(get_current_bank), db: Session = Depends(get_db)
+):
+    total_packages = (
+        db.query(LoanPackage).filter(LoanPackage.bank_id == bank.id).count()
+    )
+    max_loan = (
+        db.query(LoanPackage)
+        .filter(LoanPackage.bank_id == bank.id)
+        .order_by(LoanPackage.loan_amount.desc())
+        .first()
+    ).loan_name
+    min_loan = (
+        db.query(LoanPackage)
+        .filter(LoanPackage.bank_id == bank.id)
+        .order_by(LoanPackage.loan_amount.asc())
+        .first()
+    ).loan_name
+    return {
+        "total_packages": total_packages,
+        "max_loan": max_loan,
+        "min_loan": min_loan,
+    }
