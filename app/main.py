@@ -31,7 +31,7 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 @app.get("/", response_class=HTMLResponse)
 async def read_home():
-    home_path = os.path.join("app", "static", "home.html")
+    home_path = os.path.join("app", "static", "index.html")
     if os.path.exists(home_path):
         with open(home_path, "r") as file:
             content = file.read()
