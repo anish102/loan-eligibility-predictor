@@ -8,7 +8,7 @@
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <style rel="stylesheet" href="/static/css/style.css"></style>
+    <link rel="stylesheet" href="/static/css/style.css"></link>
   </head>
   <body style="background-color: #c8cebd">
     <header
@@ -17,7 +17,10 @@
     >
       <div class="d-flex justify-content-between align-items-center">
         <div style="display: flex; align-items: center">
-          <a href="#" style="text-decoration: none; color: white">
+          <a
+            href="/static/home.html"
+            style="text-decoration: none; color: white"
+          >
             <strong>
               <h1 style="font-family: 'Times New Roman'; font-weight: bold">
                 <img
@@ -84,23 +87,7 @@
           </button>
           <button
             type="button"
-            id="check-status-button"
-            style="margin-right: 25px"
-            class="btn btn-secondary"
-          >
-            Check Eligibility
-          </button>
-          <button
-            type="button"
-            id="recommend-package-button"
-            style="margin-right: 25px"
-            class="btn btn-secondary"
-          >
-            Recommended Packages
-          </button>
-          <button
-            type="button"
-            class="btn btn-danger"
+            class="btn btn-danger ml-auto"
             onclick="deleteCustomer()"
           >
             Delete Customer
@@ -165,6 +152,20 @@
             >Approval Status</label
           >
         </div>
+        <button
+          type="button"
+          id="check-status-button"
+          class="btn btn-secondary"
+        >
+          Check Eligibility
+        </button>
+        <button
+          type="button"
+          id="recommend-package-button"
+          class="btn btn-secondary"
+        >
+          Recommended Packages
+        </button>
       </form>
       <p id="error-message" class="text-danger mt-3"></p>
     </div>
@@ -172,9 +173,9 @@
       <div class="modal-content">
         <h4>Recommended Loan Packages</h4>
         <div id="loan-packages-list"></div>
-      </div>
-      <div class="modal-footer">
-        <button id="close-modal" class="modal-close btn">Close</button>
+        <div class="modal-footer">
+          <button id="close-modal" class="modal-close btn">Close</button>
+        </div>
       </div>
     </div>
     <div
