@@ -11,22 +11,21 @@
     <style>
       .card-custom {
         border-radius: 10px;
-        background-color: #f4f4f9;
+        background-color: #eceee9;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         margin: 20px 0;
       }
       .card-header-custom {
-        background-color: #4a5d23;
+        background-color: #41c1ba;
         color: white;
-        font-weight: bold;
+        font-weight:900;
         font-family: "Times New Roman";
       }
       .card-body-custom {
-        font-family: "Times New Roman";
-        color: #2f556b;
+        color: #365b6d;
       }
       .card-text {
-        color: #6b2f37;
+        color: #000000;
       }
       .card-footer-custom {
         background-color: #e9ecef;
@@ -35,7 +34,7 @@
       }
       .overview-title {
         font-weight: bold;
-        color: #2f556b;
+        color: #365b6d;
         font-family: "Times New Roman";
       }
       .overview-container {
@@ -44,10 +43,10 @@
       }
     </style>
   </head>
-  <body style="background-color: #c8cebd">
+  <body style="background-color: #ffffff">
     <header
       class="text-white py-3"
-      style="padding-left: 50px; padding-right: 50px; background-color: #4a5d23"
+      style="padding-left: 50px; padding-right: 50px; background-color: #41c1ba"
     >
       <div class="d-flex justify-content-between align-items-center">
         <div style="display: flex; align-items: center">
@@ -58,7 +57,7 @@
             <strong>
               <h1 style="font-family: 'Times New Roman'; font-weight: bold">
                 <img
-                  src="/static/images/logo.jpg"
+                  src="/static/images/logo.png"
                   alt="Logo"
                   style="
                     width: 50px;
@@ -75,19 +74,21 @@
             <ul class="nav">
               <li class="nav-item">
                 <a
-                  class="nav-link text-white"
+                  class="nav-link"
                   href="/static/customers.html"
-                  style="font-weight: bold"
-                  >Customers</a
+                  style="font-size: larger; font-weight: bold; color: #365b6d"
                 >
+                  Customers
+                </a>
               </li>
               <li class="nav-item">
                 <a
-                  class="nav-link text-white"
-                  style="font-weight: bold"
+                  class="nav-link"
                   href="/static/loan_packages.html"
-                  >Loan Packages</a
+                  style="font-size: larger; font-weight: bold; color: #365b6d"
                 >
+                  Loan Packages
+                </a>
               </li>
             </ul>
           </nav>
@@ -95,7 +96,7 @@
         <button
           class="btn"
           onclick="logout()"
-          style="background-color: #6b2f37; color: white; font-weight: bold"
+          style="background-color: #365b6d; color: white; font-weight: bold"
         >
           Logout
         </button>
@@ -106,8 +107,8 @@
 
       <div class="overview-container">
         <!-- Customers Overview Card -->
-        <div class="card card-custom" style="width: 18rem">
-          <div class="card-header card-header-custom">Customers</div>
+        <div class="card card-custom" id="customer-card" style="width: 25rem">
+          <div class="card-header card-header-custom"><h4>Customers</h4></div>
           <div class="card-body card-body-custom">
             <h5 class="card-title">Total Customers</h5>
             <p class="card-text" id="total-customers">Loading...</p>
@@ -121,8 +122,8 @@
         </div>
 
         <!-- Loan Packages Overview Card -->
-        <div class="card card-custom" style="width: 18rem">
-          <div class="card-header card-header-custom">Loan Packages</div>
+        <div class="card card-custom" id="loan-card" style="width: 25rem">
+          <div class="card-header card-header-custom"><h4>Loan Packages</h4></div>
           <div class="card-body card-body-custom">
             <h5 class="card-title">Total Loan Packages</h5>
             <p class="card-text" id="total-packages">Loading...</p>
