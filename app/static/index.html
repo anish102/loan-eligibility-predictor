@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Loan Eligibility Checker</title>
     <style>
-      /* Basic Reset */
       * {
         margin: 0;
         padding: 0;
@@ -14,18 +13,34 @@
 
       /* Body Styles */
       body {
-        font-family: 'Arial', sans-serif;
-        background-image: url('/static/images/background.png'); /* Background image */
+      font-family: 'Arial', sans-serif;
+      background-color: rgba(0, 0, 0, 0.5); /* Fallback for non-supporting browsers */
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      margin: 0;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+      body::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('/static/images/background.jpg');
         background-size: cover;
         background-position: center;
-        color: #fff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        text-align: center;
-        margin: 0;
+        opacity: 0.8; /* Adjust the opacity here */
+        z-index: -1; /* Make sure it sits behind the content */
       }
+
 
       /* Container Styles */
       .container {
@@ -40,6 +55,8 @@
 
       /* Header Styles */
       header {
+        font-family: 'Times New Roman';
+        font-weight: bold;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -66,7 +83,7 @@
 
       /* Button Styles */
       .btn {
-        background-color: #3498db;
+        background-color: #365b6d;
         color: white;
         padding: 15px 30px;
         font-size: 1.1rem;
@@ -102,11 +119,11 @@
   <body>
     <div class="container">
       <header>
-        <img src="/static/images/logo.jpg" alt="Logo" class="logo" /> Loan Eligibility Checker
+        <img src="/static/images/logo.png" alt="Logo" class="logo" /> Loan Eligibility Checker
       </header>
       <h1 class="description">
         Welcome to the Loan Eligibility Checker!<br />
-        This system helps you determine whether customers are eligible to get a loan based on various factors such as income, credit score, assets, and more. </br>Simply provide your details, and we'll check your eligibility.
+        This system helps you determine whether customers are eligible to get a loan based on various factors such as income, credit score, assets, and more and recommend suitable packages.</br>Simply provide the details, and we'll check the eligibility and recommend the best package.
       </h1>
       <a href="http://127.0.0.1:8000/static/register.html" class="btn">Get Started</a>
     </div>
