@@ -8,18 +8,31 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
+    <style>
+      .bodyLEC {
+        background-color: #eceee9;
+      }
+
+      .btn {
+        background-color: #365b6d;
+      }
+    </style>
   </head>
   <body
-    class="d-flex justify-content-center align-items-center min-vh-100 bg-dark text-light"
+    class="d-flex justify-content-center align-items-center min-vh-100 text-light bodyLEC"
   >
     <div
-      class="container p-4 shadow-sm bg-white rounded"
-      style="max-width: 500px; width: 100%"
+      class="container p-4 shadow-sm"
+      style="max-width: 500px; width: 100%; background-color: #41c1ba;border-radius: 15px;"
     >
-      <h2 class="text-center mb-4 text-dark">Register</h2>
+      <h2 class="text-center mb-4" style="color:#365b6d; font-weight: bold">Register</h2>
       <form id="register-form" class="form">
         <div class="form-group">
-          <label for="id" class="font-weight-bold text-dark">Bank ID</label>
+          <label
+            for="id"
+            class="font-weight-bold text-light"
+            >Bank ID</label
+          >
           <input
             type="text"
             id="id"
@@ -29,7 +42,7 @@
           />
         </div>
         <div class="form-group">
-          <label for="name" class="font-weight-bold text-dark">Bank Name</label>
+          <label for="name" class="font-weight-bold text-light">Bank Name</label>
           <input
             type="text"
             id="name"
@@ -39,7 +52,7 @@
           />
         </div>
         <div class="form-group">
-          <label for="password" class="font-weight-bold text-dark"
+          <label for="password" class="font-weight-bold text-light"
             >Password</label
           >
           <input
@@ -51,7 +64,7 @@
           />
         </div>
         <div class="form-group">
-          <label for="registration-document" class="font-weight-bold text-dark"
+          <label for="registration-document" class="font-weight-bold text-light"
             >Registration Document (PDF)</label
           >
           <input
@@ -61,14 +74,12 @@
             required
           />
         </div>
-        <button type="submit" class="btn btn-primary btn-block">
-          Register
-        </button>
+        <button type="submit" class="btn text-light btn-block">Register</button>
       </form>
       <p id="error-message" class="error mt-3 text-danger text-center"></p>
-      <p class="redirect-link mt-3 text-dark text-center">
+      <p class="redirect-link mt-3 text-light text-center">
         Already have an account?
-        <a href="login.html" class="text-primary">Login</a>
+        <a href="login.html" style="color:#365b6d">Login</a>
       </p>
     </div>
     <script src="/static/js/register.js"></script>

@@ -8,15 +8,26 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
+    <style>
+      .bodyLEC {
+        background-color: #eceee9;
+      }
+
+      .btn {
+        background-color: #365b6d;
+      }
+    </style>
   </head>
   <body
-    class="d-flex justify-content-center align-items-center min-vh-100 bg-dark text-light"
+    class="d-flex justify-content-center align-items-center min-vh-100 text-light bodyLEC"
   >
     <div
-      class="container p-4 shadow-sm bg-white rounded"
-      style="max-width: 500px; width: 100%"
+      class="container p-4 shadow-sm"
+      style="max-width: 500px; width: 100%; background-color: #41c1ba;border-radius: 15px;"
     >
-      <h2 class="text-center mb-4 text-dark">Login</h2>
+      <h2 class="text-center mb-4" style="color:#365b6d; font-weight: bold">
+        Login
+      </h2>
       <form id="login-form" class="form">
         <div class="form-group">
           <input
@@ -36,12 +47,12 @@
             required
           />
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Login</button>
+        <button type="submit" class="btn text-light btn-block">Login</button>
       </form>
       <p id="error-message" class="error mt-3 text-danger text-center"></p>
-      <p class="redirect-link mt-3 text-dark text-center">
+      <p class="redirect-link mt-3 text-light text-center">
         Don't have an account?
-        <a href="register.html" class="text-primary">Register</a>
+        <a href="register.html" style="color: #365b6d;">Register</a>
       </p>
     </div>
     <script src="/static/js/login.js"></script>
