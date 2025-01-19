@@ -1,225 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Customers</title>
-    <link
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/static/css/style.css"></link>
-  </head>
-  <body style="background-color: #c8cebd">
-    <header
-      class="text-white py-3"
-      style="padding-left: 50px; padding-right: 50px; background-color: #4a5d23"
-    >
-      <div class="d-flex justify-content-between align-items-center">
-        <div style="display: flex; align-items: center">
-          <a
-            href="/static/home.html"
-            style="text-decoration: none; color: white"
-          >
-            <strong>
-              <h1 style="font-family: 'Times New Roman'; font-weight: bold">
-                <img
-                  src="/static/images/logo.jpg"
-                  alt="Logo"
-                  style="
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customers</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0, 0, 0);
+      background-color: rgba(0, 0, 0, 0.4);
+      padding-top: 60px;
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      /* Could be adjusted */
+      max-width: 600px;
+    }
+
+    .modal-footer {
+      padding: 10px;
+      text-align: right;
+    }
+
+    #close-modal {
+      background-color: #365b6d;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    #close-modal:hover {
+      background-color: #4f88a5;
+    }
+
+    #loan-packages-list {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .package-card {
+      border: 1px solid #ddd;
+      margin: 10px 0;
+      padding: 10px;
+      background-color: #fafafa;
+      border-radius: 8px;
+    }
+
+    .package-card h5 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .package-card p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+
+<body style="background-color: white">
+  <header class="text-white py-3" style="padding-left: 50px; padding-right: 50px; background-color: #41c1ba">
+    <div class="d-flex justify-content-between align-items-center">
+      <div style="display: flex; align-items: center">
+        <a href="/static/home.html" style="text-decoration: none; color: white">
+          <strong>
+            <h1 style="font-family: 'Times New Roman'; font-weight: bold">
+              <img src="/static/images/logo.png" alt="Logo" style="
                     width: 50px;
                     height: 50px;
                     border-radius: 50%;
                     object-fit: cover;
                     margin-right: 15px;
-                  "
-                />Loan Prediction System
-              </h1>
-            </strong>
-          </a>
-          <nav style="padding-left: 50px">
-            <ul class="nav">
-              <li class="nav-item">
-                <a
-                  class="nav-link text-white"
-                  href="/static/customers.html"
-                  style="font-weight: bold"
-                  >Customers</a
-                >
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link text-white"
-                  style="font-weight: bold"
-                  href="/static/loan_packages.html"
-                  >Loan Packages</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <button
-          class="btn"
-          onclick="logout()"
-          style="background-color: #6b2f37; color: white; font-weight: bold"
-        >
-          Logout
+                  " />Loan Prediction System
+            </h1>
+          </strong>
+        </a>
+        <nav style="padding-left: 50px">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/static/customers.html"
+                style="font-size: larger; font-weight: bold; color: #365b6d">
+                Customers
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/static/loan_packages.html"
+                style="font-size: larger; font-weight: bold; color: #365b6d">
+                Loan Packages
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <button class="btn" onclick="logout()" style="background-color: #365b6d; color: white; font-weight: bold">
+        Logout
+      </button>
+    </div>
+  </header>
+  <div class="container mt-5">
+    <h3 class="mb-4" style="
+          font-weight: bold;
+          color: #365b6d;
+          font-family: 'Times New Roman';
+        ">
+      Customer
+    </h3>
+    <form id="edit-customer-form">
+      <div class="d-flex mb-4">
+        <button class="btn" style="margin-right: 5px; background-color: #365b6d; color: white" onclick="back()">
+          Back
+        </button>
+        <button type="submit" style="background-color: #365b6d; color: white" class="btn">
+          Save
+        </button>
+        <button type="button" class="btn ml-auto" style="background-color: #365b6d; color: white"
+          onclick="deleteCustomer()">
+          Delete Customer
         </button>
       </div>
-    </header>
-    <div class="container mt-5">
-      <h2 class="text-center mb-4">Customer</h2>
-      <form id="edit-customer-form">
-        <div class="d-flex mb-4">
-          <button
-            class="btn btn-secondary"
-            style="margin-right: 25px"
-            onclick="back()"
-          >
-            Back
-          </button>
-          <button
-            type="submit"
-            style="margin-right: 25px"
-            class="btn btn-primary"
-          >
-            Save
-          </button>
-          <button
-            type="button"
-            class="btn btn-danger ml-auto"
-            onclick="deleteCustomer()"
-          >
-            Delete Customer
-          </button>
-        </div>
-        <div class="mb-3">
-          <label for="name" class="form-label">Name</label>
-          <input type="text" id="name" class="form-control" required />
-        </div>
-        <div class="mb-3 form-check">
-          <input type="checkbox" id="is_employed" class="form-check-input" />
-          <label for="is_employed" class="form-check-label">Employed</label>
-        </div>
-        <div class="mb-3">
-          <label for="income" class="form-label">Income</label>
-          <input type="number" id="income" class="form-control" required />
-        </div>
-        <div class="mb-3 form-check">
-          <input type="checkbox" id="is_graduated" class="form-check-input" />
-          <label for="is_graduated" class="form-check-label">Graduated</label>
-        </div>
-        <div class="mb-3">
-          <label for="residential_assets" class="form-label"
-            >Residential Assets</label
-          >
-          <input type="number" id="residential_assets" class="form-control" />
-        </div>
-        <div class="mb-3">
-          <label for="commercial_assets" class="form-label"
-            >Commercial Assets</label
-          >
-          <input type="number" id="commercial_assets" class="form-control" />
-        </div>
-        <div class="mb-3">
-          <label for="luxury_assets" class="form-label">Luxury Assets</label>
-          <input type="number" id="luxury_assets" class="form-control" />
-        </div>
-        <div class="mb-3">
-          <label for="bank_assets" class="form-label">Bank Assets</label>
-          <input type="number" id="bank_assets" class="form-control" />
-        </div>
-        <div class="mb-3">
-          <label for="credit_score" class="form-label">Credit Score</label>
-          <input type="number" id="credit_score" class="form-control" />
-        </div>
-        <div class="mb-3">
-          <label for="loan_amount" class="form-label">Loan Amount</label>
-          <input type="number" id="loan_amount" class="form-control" />
-        </div>
-        <div class="mb-3">
-          <label for="loan_term" class="form-label">Loan Term</label>
-          <input type="number" id="loan_term" class="form-control" required />
-        </div>
-        <div class="mb-3 form-check">
-          <input
-            type="checkbox"
-            id="approval_status"
-            class="form-check-input"
-            disabled
-          />
-          <label for="approval_status" class="form-check-label"
-            >Approval Status</label
-          >
-        </div>
-        <button
-          type="button"
-          id="check-status-button"
-          class="btn btn-secondary"
-        >
-          Check Eligibility
-        </button>
-        <button
-          type="button"
-          id="recommend-package-button"
-          class="btn btn-secondary"
-        >
-          Recommended Packages
-        </button>
-      </form>
-      <p id="error-message" class="text-danger mt-3"></p>
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" id="name" class="form-control" style="background-color: #eceee9" required />
+      </div>
+      <div class="mb-3 form-check">
+        <input type="checkbox" id="is_employed" class="form-check-input" style="background-color: #eceee9" />
+        <label for="is_employed" class="form-check-label">Employed</label>
+      </div>
+      <div class="mb-3">
+        <label for="income" class="form-label">Income</label>
+        <input type="number" id="income" class="form-control" style="background-color: #eceee9" required />
+      </div>
+      <div class="mb-3 form-check">
+        <input type="checkbox" id="is_graduated" class="form-check-input" style="background-color: #eceee9" />
+        <label for="is_graduated" class="form-check-label">Graduated</label>
+      </div>
+      <div class="mb-3">
+        <label for="residential_assets" class="form-label">Residential Assets</label>
+        <input type="number" id="residential_assets" class="form-control" style="background-color: #eceee9" />
+      </div>
+      <div class="mb-3">
+        <label for="commercial_assets" class="form-label">Commercial Assets</label>
+        <input type="number" id="commercial_assets" class="form-control" style="background-color: #eceee9" />
+      </div>
+      <div class="mb-3">
+        <label for="luxury_assets" class="form-label">Luxury Assets</label>
+        <input type="number" id="luxury_assets" class="form-control" style="background-color: #eceee9" />
+      </div>
+      <div class="mb-3">
+        <label for="bank_assets" class="form-label">Bank Assets</label>
+        <input type="number" id="bank_assets" class="form-control" style="background-color: #eceee9" />
+      </div>
+      <div class="mb-3">
+        <label for="credit_score" class="form-label">Credit Score</label>
+        <input type="number" id="credit_score" class="form-control" style="background-color: #eceee9" />
+      </div>
+      <div class="mb-3">
+        <label for="loan_amount" class="form-label">Loan Amount</label>
+        <input type="number" id="loan_amount" class="form-control" style="background-color: #eceee9" />
+      </div>
+      <div class="mb-3">
+        <label for="loan_term" class="form-label">Loan Term</label>
+        <input type="number" id="loan_term" class="form-control" style="background-color: #eceee9" required />
+      </div>
+      <div class="mb-3 form-check">
+        <input type="checkbox" id="approval_status" class="form-check-input" style="background-color: #eceee9"
+          disabled />
+        <label for="approval_status" class="form-check-label">Approval Status</label>
+      </div>
+      <button type="button" id="check-status-button" class="btn" style="background-color: #365b6d; color: white">
+        Check Eligibility
+      </button>
+      <button type="button" id="recommend-package-button" class="btn" style="background-color: #365b6d; color: white">
+        Recommended Packages
+      </button>
+    </form>
+    <p id="error-message" class="text-danger mt-3"></p>
+  </div>
+  <div id="loan-package-modal" class="modal">
+    <div class="modal-content">
+      <h4>Recommended Loan Packages</h4>
+      <div id="loan-packages-list"></div>
+      <div class="modal-footer">
+        <button id="close-modal" class="modal-close btn">Close</button>
+      </div>
     </div>
-    <div id="loan-package-modal" class="modal">
+  </div>
+  <div id="alert-modal" class="modal fade" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
       <div class="modal-content">
-        <h4>Recommended Loan Packages</h4>
-        <div id="loan-packages-list"></div>
+        <div class="modal-header">
+          <h5 class="modal-title" id="alertModalLabel">Alert</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h4 id="modal-message"></h4>
+        </div>
         <div class="modal-footer">
-          <button id="close-modal" class="modal-close btn">Close</button>
+          <button id="modal-ok-btn" class="btn btn-primary" data-bs-dismiss="modal">
+            OK
+          </button>
         </div>
       </div>
     </div>
-    <div
-      id="alert-modal"
-      class="modal fade"
-      tabindex="-1"
-      aria-labelledby="alertModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="alertModalLabel">Alert</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <h4 id="modal-message"></h4>
-          </div>
-          <div class="modal-footer">
-            <button
-              id="modal-ok-btn"
-              class="btn btn-primary"
-              data-bs-dismiss="modal"
-            >
-              OK
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script src="/static/js/edit_customer.js"></script>
-    <script>
-      function logout() {
-        localStorage.removeItem("token");
-        window.location.href = "/static/login.html";
-      }
-      function back() {
-        window.location.href = "/static/customers.html";
-      }
-    </script>
-  </body>
+  </div>
+  <script src="/static/js/edit_customer.js"></script>
+  <script>
+    function logout() {
+      localStorage.removeItem("token");
+      window.location.href = "/static/login.html";
+    }
+    function back() {
+      window.location.href = "/static/customers.html";
+    }
+  </script>
+</body>
+
 </html>
