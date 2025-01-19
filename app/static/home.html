@@ -1,148 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Loan Prediction System</title>
-    <link
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <style>
-      .card-custom {
-        border-radius: 10px;
-        background-color: #eceee9;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin: 20px 0;
-      }
-      .card-header-custom {
-        background-color: #41c1ba;
-        color: white;
-        font-weight:900;
-        font-family: "Times New Roman";
-      }
-      .card-body-custom {
-        color: #365b6d;
-      }
-      .card-text {
-        color: #000000;
-      }
-      .card-footer-custom {
-        background-color: #e9ecef;
-        text-align: right;
-        font-weight: bold;
-      }
-      .overview-title {
-        font-weight: bold;
-        color: #365b6d;
-        font-family: "Times New Roman";
-      }
-      .overview-container {
-        display: flex;
-        justify-content: space-around;
-      }
-    </style>
-  </head>
-  <body style="background-color: #ffffff">
-    <header
-      class="text-white py-3"
-      style="padding-left: 50px; padding-right: 50px; background-color: #41c1ba"
-    >
-      <div class="d-flex justify-content-between align-items-center">
-        <div style="display: flex; align-items: center">
-          <a
-            href="/static/home.html"
-            style="text-decoration: none; color: white"
-          >
-            <strong>
-              <h1 style="font-family: 'Times New Roman'; font-weight: bold">
-                <img
-                  src="/static/images/logo.png"
-                  alt="Logo"
-                  style="
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loan Prediction System</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    .card-custom {
+      border-radius: 10px;
+      background-color: #eceee9;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: 20px 0;
+    }
+
+    .card-header-custom {
+      background-color: #41c1ba;
+      color: white;
+      font-weight: 900;
+      font-family: "Times New Roman";
+    }
+
+    .card-body-custom {
+      color: #365b6d;
+    }
+
+    .card-text {
+      color: #000000;
+    }
+
+    .card-footer-custom {
+      background-color: #e9ecef;
+      text-align: right;
+      font-weight: bold;
+    }
+
+    .overview-title {
+      font-weight: bold;
+      color: #365b6d;
+      font-family: "Times New Roman";
+    }
+
+    .overview-container {
+      display: flex;
+      justify-content: space-around;
+    }
+  </style>
+</head>
+
+<body style="background-color: #ffffff">
+  <header class="text-white py-3" style="padding-left: 50px; padding-right: 50px; background-color: #41c1ba">
+    <div class="d-flex justify-content-between align-items-center">
+      <div style="display: flex; align-items: center">
+        <a href="/static/home.html" style="text-decoration: none; color: white">
+          <strong>
+            <h1 style="font-family: 'Times New Roman'; font-weight: bold">
+              <img src="/static/images/logo.png" alt="Logo" style="
                     width: 50px;
                     height: 50px;
                     border-radius: 50%;
                     object-fit: cover;
                     margin-right: 15px;
-                  "
-                />Loan Prediction System
-              </h1>
-            </strong>
-          </a>
-          <nav style="padding-left: 50px">
-            <ul class="nav">
-              <li class="nav-item">
-                <a
-                  class="nav-link"
-                  href="/static/customers.html"
-                  style="font-size: larger; font-weight: bold; color: #365b6d"
-                >
-                  Customers
-                </a>
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link"
-                  href="/static/loan_packages.html"
-                  style="font-size: larger; font-weight: bold; color: #365b6d"
-                >
-                  Loan Packages
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <button
-          class="btn"
-          onclick="logout()"
-          style="background-color: #365b6d; color: white; font-weight: bold"
-        >
-          Logout
-        </button>
+                  " />Loan Prediction System
+            </h1>
+          </strong>
+        </a>
+        <nav style="padding-left: 50px">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/static/customers.html"
+                style="font-size: larger; font-weight: bold; color: #365b6d">
+                Customers
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/static/loan_packages.html"
+                style="font-size: larger; font-weight: bold; color: #365b6d">
+                Loan Packages
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
-    </header>
-    <div class="container mt-5">
-      <h3 class="mb-4 overview-title">Overview</h3>
-
-      <div class="overview-container">
-        <!-- Customers Overview Card -->
-        <div class="card card-custom" id="customer-card" style="width: 25rem">
-          <div class="card-header card-header-custom"><h4>Customers</h4></div>
-          <div class="card-body card-body-custom">
-            <h5 class="card-title">Total Customers</h5>
-            <p class="card-text" id="total-customers">Loading...</p>
-
-            <h5 class="card-title">Approved Customers</h5>
-            <p class="card-text" id="approved-customers">Loading...</p>
-
-            <h5 class="card-title">Latest Customer</h5>
-            <p class="card-text" id="latest-customer">Loading...</p>
-          </div>
+      <button class="btn" onclick="logout()" style="background-color: #365b6d; color: white; font-weight: bold">
+        Logout
+      </button>
+    </div>
+  </header>
+  <div class="container mt-5">
+    <h3 class="mb-4 overview-title">Overview</h3>
+    <!-- Customers Overview Card -->
+    <div class="overview-container">
+      <div class="card card-custom" id="customer-card" style="width: 25rem">
+        <div class="card-header card-header-custom">
+          <h4>Customers</h4>
         </div>
+        <div class="card-body card-body-custom">
+          <h5 class="card-title">Total Customers</h5>
+          <p class="card-text" id="total-customers">Loading...</p>
 
-        <!-- Loan Packages Overview Card -->
-        <div class="card card-custom" id="loan-card" style="width: 25rem">
-          <div class="card-header card-header-custom"><h4>Loan Packages</h4></div>
-          <div class="card-body card-body-custom">
-            <h5 class="card-title">Total Loan Packages</h5>
-            <p class="card-text" id="total-packages">Loading...</p>
+          <h5 class="card-title">Approved Customers</h5>
+          <p class="card-text" id="approved-customers">Loading...</p>
 
-            <h5 class="card-title">High-Amount Loan Package</h5>
-            <p class="card-text" id="max-loan">Loading...</p>
+          <h5 class="card-title">Latest Customer</h5>
+          <p class="card-text" id="latest-customer">Loading...</p>
+        </div>
+      </div>
 
-            <h5 class="card-title">Low-Amount Loan Package</h5>
-            <p class="card-text" id="min-loan">Loading...</p>
-          </div>
+      <div class="card card-custom" id="loan-card" style="width: 25rem">
+        <div class="card-header card-header-custom">
+          <h4>Loan Packages</h4>
+        </div>
+        <div class="card-body card-body-custom">
+          <h5 class="card-title">Total Loan Packages</h5>
+          <p class="card-text" id="total-packages">Loading...</p>
+
+          <h5 class="card-title">High-Amount Loan Package</h5>
+          <p class="card-text" id="max-loan">Loading...</p>
+
+          <h5 class="card-title">Low-Amount Loan Package</h5>
+          <p class="card-text" id="min-loan">Loading...</p>
         </div>
       </div>
     </div>
-    <script src="/static/js/home.js"></script>
-    <script>
-      function logout() {
-        localStorage.removeItem("token");
-        window.location.href = "/static/login.html";
-      }
-    </script>
-  </body>
+  </div>
+  <script src="/static/js/home.js"></script>
+  <script>
+    function logout() {
+      localStorage.removeItem("token");
+      window.location.href = "/static/login.html";
+    }
+  </script>
+</body>
+
 </html>
