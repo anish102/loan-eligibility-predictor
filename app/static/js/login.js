@@ -28,7 +28,7 @@ document
 
         localStorage.setItem("token", token);
 
-        window.location.href = "/static/customers.html";
+        window.location.href = "/static/home.html";
       } else {
         const errorData = await response.json();
         document.getElementById("error-message").textContent =
