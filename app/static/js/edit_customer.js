@@ -119,6 +119,68 @@ document
     }
   });
 
+document
+  .getElementById("check-status-button")
+  .addEventListener("click", async function (event) {
+    event.preventDefault(); // Prevent form submission
+    if (!isAuthenticated()) {
+      window.location.href = "/static/login.html"; // Redirect to login page if no valid token
+      return;
+    }
+    const customerData = {
+      name: document.getElementById("name").value,
+      is_employed: document.getElementById("is_employed").checked,
+      income: parseFloat(document.getElementById("income").value),
+      is_graduated: document.getElementById("is_graduated").checked,
+      residential_assets:
+        parseFloat(document.getElementById("residential_assets").value) || 0,
+      commercial_assets:
+        parseFloat(document.getElementById("commercial_assets").value) || 0,
+      luxury_assets:
+        parseFloat(document.getElementById("luxury_assets").value) || 0,
+      bank_assets:
+        parseFloat(document.getElementById("bank_assets").value) || 0,
+      credit_score:
+        parseFloat(document.getElementById("credit_score").value) || 0,
+      loan_amount:
+        parseFloat(document.getElementById("loan_amount").value) || 0,
+      loan_term: parseFloat(document.getElementById("loan_term").value) || 0,
+    };
+
+    try {
+      const response = await fetch(
+        `${API_URL}/check_approval_status/${customerId}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(customerData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Error getting loan approval status");
+      }
+
+      const data = await response.json();
+      const approval_status = data.approval_status;
+      const message = data.message;
+
+      const approvalStatusCheckbox = document.getElementById("approval_status");
+      approvalStatusCheckbox.checked = approval_status;
+
+      if (message) {
+        showAlert(message);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      document.getElementById("error-message").textContent =
+        "Failed to get loan aproval status";
+    }
+  });
+
 // Check approval status button logic
 document
   .getElementById("recommend-package-button")
@@ -186,11 +248,8 @@ document
           packageCard.innerHTML = `
             <h5>${package.loan_name}</h5>
             <p><strong>Loan Amount:</strong> ${package.loan_amount}</p>
-            <p><strong>Min Income:</strong> ${package.min_income}</p>
-            <p><strong>Min Assets:</strong> ${package.min_assets}</p>
-            <p><strong>Min Credit Score:</strong> ${package.min_credit_score}</p>
-            <p><strong>Interest Rate:</strong> ${package.interest_rate}%</p>
-            <p><strong>Loan Term:</strong> ${package.loan_term} montsh</p>
+            <p><strong>Interest Rate:</strong> ${package.interest_rate} %</p>
+            <p><strong>Loan Term:</strong> ${package.loan_term} months</p>
           `;
 
           loanPackagesList.appendChild(packageCard);
