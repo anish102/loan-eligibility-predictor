@@ -20,6 +20,7 @@ class Bank(Base):
 
     id = Column(String, primary_key=True, index=True)
     name = Column(String, unique=True, index=True)
+    activated_at = Column(DateTime)
     active = Column(Boolean)
     hashed_password = Column(String)
     customers = relationship("Customer", back_populates="bank")
