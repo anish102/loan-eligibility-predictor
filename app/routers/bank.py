@@ -1,6 +1,6 @@
 import base64
 import os
-from datetime import timedelta
+from datetime import datetime, timedelta, timezone
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, status
 from fastapi.responses import JSONResponse
@@ -16,7 +16,7 @@ from app.auth import (
     verify_password,
 )
 from app.database import get_db
-from app.models import Bank, BankRegistrationDocument
+from app.models import Bank, BankRegistrationDocument, Customer, LoanPackage
 
 router = APIRouter()
 
@@ -108,10 +108,15 @@ async def get_bank(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"No bank with id {bank_id} found",
         )
+    activated_at = bank.activated_at
+    active_date = (
+        activated_at.strftime("%m/%d/%Y %I:%M:%S %p") if activated_at else None
+    )
     bank_data = {
         "id": bank.id,
         "name": bank.name,
         "active": bank.active,
+        "activated_at": active_date,
     }
     proof_doc = bank.proof_doc
     proof_doc_data = None
@@ -134,9 +139,33 @@ async def update_bank(
             detail=f"No bank with id {bank_id} found",
         )
     bank.active = bank_status.active
+    bank.activated_at = datetime.now(timezone.utc) if bank_status.active else None
     db.commit()
     db.refresh(bank)
     return {"message": "Bank activated successfully", "bank_id": bank_id}
+
+
+@router.delete("/bank/{bank_id}")
+async def delete_bank(
+    bank_id: str,
+    admin: str = Depends(get_admin),
+    db: Session = Depends(get_db),
+):
+    existing_bank = db.query(Bank).filter(Bank.id == bank_id).first()
+    customers = db.query(Customer).filter(Customer.bank_id == bank_id).all()
+    loanpackages = db.query(LoanPackage).filter(LoanPackage.bank_id == bank_id).all()
+    if not existing_bank:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"No customer with id {bank_id} found",
+        )
+    for customer in customers:
+        db.delete(customer)
+    for package in loanpackages:
+        db.delete(package)
+    db.delete(existing_bank)
+    db.commit()
+    return {"message": "Bank deleted successfully", "bank_id": bank_id}
 
 
 @router.post("/logout")
