@@ -40,8 +40,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         row.innerHTML = `
           <td>${package.loan_name}</td>
           <td>${package.loan_amount}</td>
+          <td>${package.interest_rate}</td>
           <td>${package.loan_term}</td>
-          <td>${package.loan_amount}</td>
         `;
         row.addEventListener("click", () => {
           window.location.href = `/static/edit_loan_package.html?id=${package.id}`;
