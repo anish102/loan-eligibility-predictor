@@ -172,7 +172,7 @@ document
       approvalStatusCheckbox.checked = approval_status;
 
       if (message) {
-        showAlert(message);
+        alert(message);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -181,7 +181,6 @@ document
     }
   });
 
-// Check approval status button logic
 document
   .getElementById("recommend-package-button")
   .addEventListener("click", async function (event) {
