@@ -55,7 +55,7 @@
         ">
       Add Customer
     </h3>
-    <form id="add-customer-form" class="needs-validation" novalidate>
+    <form id="add-customer-form">
       <div id="button" class="d-flex mb-4">
         <button class="btn btn-secondary" style="margin-right: 5px; color: white; background-color: #365b6d"
           onclick="back()">
@@ -67,8 +67,8 @@
       </div>
       <div class="mb-3">
         <label for="name" class="form-label">Name</label>
-        <input type="text" id="name" placeholder="Enter name" class="form-control" style="background-color: #eceee9"
-          required />
+        <input type="text" id="name" placeholder="Enter name" class="form-control" minlength="3" maxlength="15"
+          style="background-color: #eceee9" required />
       </div>
       <div class="mb-3 form-check">
         <input type="checkbox" id="is_employed" class="form-check-input" style="background-color: #eceee9" />
@@ -76,8 +76,8 @@
       </div>
       <div class="mb-3">
         <label for="income" class="form-label">Income</label>
-        <input type="number" id="income" placeholder="Enter income" step="1000" class="form-control"
-          style="background-color: #eceee9" required />
+        <input type="number" id="income" placeholder="Enter income" min="100000" max="10000000" step="1000"
+          class="form-control" style="background-color: #eceee9" required />
       </div>
       <div class="mb-3 form-check">
         <input type="checkbox" id="is_graduated" class="form-check-input" style="background-color: #eceee9" />
@@ -105,18 +105,18 @@
       </div>
       <div class="mb-3">
         <label for="credit_score" class="form-label">Credit Score</label>
-        <input type="number" id="credit_score" placeholder="Enter credit score" step="5" class="form-control"
-          style="background-color: #eceee9" required />
+        <input type="number" min="300" max="850" id="credit_score" placeholder="Enter credit score" step="5"
+          class="form-control" style="background-color: #eceee9" required />
       </div>
       <div class="mb-3">
         <label for="loan_amount" class="form-label">Loan Amount</label>
-        <input type="number" id="loan_amount" placeholder="Enter loan amount" step="1000" class="form-control"
-          style="background-color: #eceee9" required />
+        <input type="number" id="loan_amount" min="100000" max="10000000" placeholder="Enter loan amount" step="1000"
+          class="form-control" style="background-color: #eceee9" required />
       </div>
       <div class="mb-3">
         <label for="loan_term" class="form-label">Loan Term</label>
-        <input type="number" id="loan_term" placeholder="Enter loan term" step="12" class="form-control"
-          style="background-color: #eceee9" required />
+        <input type="number" id="loan_term" min="12" max="120" placeholder="Enter loan term" step="12"
+          class="form-control" style="background-color: #eceee9" required />
       </div>
       <div class="mb-3 form-check">
         <input type="checkbox" id="approval_status" class="form-check-input" style="background-color: #eceee9"

@@ -31,6 +31,7 @@ document
       });
 
       if (response.ok) {
+        alert("Your account has been registered!\nPlease wait till the account gets activated!")
         window.location.href = "login.html";
       } else {
         const errorData = await response.json();
