@@ -95,8 +95,8 @@
       <embed id="proof-doc-pdf" type="application/pdf" width="90%" height="750" />
       <br></br>
     </div>
-    <button class="button" onclick="updateBank(true)">Activate</button>
-    <button class="button" onclick="updateBank(false)">Deactivate</button>
+    <button id="activate-button" class="button" onclick="updateBank(true)" style="display: none;">Activate</button>
+    <button id="deactivate-button" class="button" onclick="updateBank(false)" style="display: none;">Deactivate</button>
     <button class="button" onclick="deleteBank()">Delete</button>
   </div>
 
@@ -198,7 +198,15 @@
     ${bank.active ? `<p><strong>Activated At:</strong> ${bank.activated_at}</p>` : ''}
             `;
           document.getElementById("bank-info").innerHTML = bankInfo;
-
+          const activateButton = document.getElementById("activate-button");
+          const deactivateButton = document.getElementById("deactivate-button");
+          if (bank.active) {
+            activateButton.style.display = "none";
+            deactivateButton.style.display = "inline-block";
+          } else {
+            activateButton.style.display = "inline-block";
+            deactivateButton.style.display = "none";
+          }
           if (proofDoc) {
             document.getElementById("proof-doc-pdf").style.display = "none";
             document.getElementById("proof-doc-pdf").style.display = "block";

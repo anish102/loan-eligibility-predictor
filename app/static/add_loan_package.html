@@ -66,39 +66,42 @@
       </div>
       <div class="mb-3">
         <label for="loan_name" class="form-label">Name</label>
-        <input type="text" id="loan_name" placeholder="Enter name" minlength="3" maxlength="16" class="form-control"
-          style="background-color: #eceee9" required />
-      </div>
-      <div class="mb-3">
-        <label for="loan_amount" class="form-label">Amount</label>
-        <input type="number" id="loan_amount" placeholder="Enter loan amount" min="100000" max="10000000" step="1000"
+        <input type="text" id="loan_name" placeholder="Enter the name of the package" minlength="3" maxlength="16"
           class="form-control" style="background-color: #eceee9" required />
       </div>
       <div class="mb-3">
+        <label for="loan_amount" class="form-label">Amount</label>
+        <input type="number" id="loan_amount" placeholder="Enter the loan amount for the package" min="100000"
+          max="10000000" step="1000" class="form-control" style="background-color: #eceee9" required />
+      </div>
+      <div class="mb-3">
         <label for="min_income" class="form-label">Minimum Income</label>
-        <input type="number" id="min_income" min="100000" max="10000000" placeholder="Enter minimum income required"
-          step="1000" class="form-control" style="background-color: #eceee9" required />
+        <input type="number" id="min_income" min="100000" max="10000000"
+          placeholder="Enter minimum income of customer required to get the package" step="1000" class="form-control"
+          style="background-color: #eceee9" required />
       </div>
       <div class="mb-3">
         <label for="min_assets" class="form-label">Minimum Assets</label>
-        <input type="number" id="min_assets" placeholder="Enter minimum assets required" step="1000"
+        <input type="number" id="min_assets"
+          placeholder="Enter the minimum valuation of assets of customer required to get the package" step="1000"
           class="form-control" style="background-color: #eceee9" />
       </div>
       <div class="mb-3">
         <label for="min_credit_score" class="form-label">Minimum Credit Score</label>
         <input type="number" id="min_credit_score" min="300" max="850" step="5"
-          placeholder="Enter minimum credit score required" class="form-control" style="background-color: #eceee9"
-          required />
+          placeholder="Enter minimum credit score of customer required to get the package" class="form-control"
+          style="background-color: #eceee9" required />
       </div>
       <div class="mb-3">
         <label for="loan_term" class="form-label">Loan Term</label>
-        <input type="number" id="loan_term" min="12" max="120" placeholder="Enter loan term" class="form-control"
+        <input type="number" id="loan_term" min="12" max="120"
+          placeholder="Enter the loan term of the package in months" class="form-control"
           style="background-color: #eceee9" required />
       </div>
       <div class="mb-3">
         <label for="interest_rate" class="form-label">Interest Rate</label>
-        <input type="number" id="interest_rate" min="1" max="20" placeholder="Enter interest rate" class="form-control"
-          style="background-color: #eceee9" required />
+        <input type="number" id="interest_rate" min="1" max="20" placeholder="Enter the interest rate of the package"
+          class="form-control" style="background-color: #eceee9" required />
       </div>
     </form>
     <p id="error-message" class="text-danger mt-3"></p>
