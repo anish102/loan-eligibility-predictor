@@ -39,9 +39,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${customer.name}</td>
-          <td>${customer.income}</td>
+          <td>Rs ${customer.income}</td>
           <td>${customer.credit_score}</td>
-          <td>${customer.loan_amount}</td>
+          <td>Rs ${customer.loan_amount}</td>
         `;
         row.addEventListener("click", () => {
           window.location.href = `/static/edit_customer.html?id=${customer.id}`;

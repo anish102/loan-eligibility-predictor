@@ -39,9 +39,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${package.loan_name}</td>
-          <td>${package.loan_amount}</td>
-          <td>${package.interest_rate}</td>
-          <td>${package.loan_term}</td>
+          <td>Rs ${package.loan_amount}</td>
+          <td>${package.interest_rate}%</td>
+          <td>${package.loan_term} months</td>
         `;
         row.addEventListener("click", () => {
           window.location.href = `/static/edit_loan_package.html?id=${package.id}`;

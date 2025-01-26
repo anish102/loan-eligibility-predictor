@@ -246,7 +246,7 @@ document
 
           packageCard.innerHTML = `
             <h5>${package.loan_name}</h5>
-            <p><strong>Loan Amount:</strong> ${package.loan_amount}</p>
+            <p><strong>Loan Amount:</strong>Rs ${package.loan_amount}</p>
             <p><strong>Interest Rate:</strong> ${package.interest_rate} %</p>
             <p><strong>Loan Term:</strong> ${package.loan_term} months</p>
           `;
