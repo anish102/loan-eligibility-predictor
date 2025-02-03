@@ -228,11 +228,6 @@ document
       const loanPackages = data.packages;
       const message = data.message;
 
-      // Optionally, display the message somewhere in the UI
-      if (message) {
-        showAlert(message);
-      }
-
       // Populate and display the modal with loan packages
       const loanPackagesList = document.getElementById("loan-packages-list");
       loanPackagesList.innerHTML = ""; // Clear any existing content
@@ -314,23 +309,3 @@ async function deleteCustomer() {
   }
 }
 
-function showAlert(message) {
-  const modal = document.getElementById("alert-modal");
-  const modalMessage = document.getElementById("modal-message");
-  const okBtn = document.getElementById("modal-ok-btn");
-
-  modalMessage.textContent = message;
-  modal.style.display = "block";
-
-  // Close the modal when the "OK" button or the close icon is clicked
-  okBtn.onclick = () => {
-    modal.style.display = "none";
-  };
-
-  // Close the modal if the user clicks outside of the modal
-  window.onclick = (event) => {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  };
-}
