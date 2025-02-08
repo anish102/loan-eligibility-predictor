@@ -165,6 +165,19 @@ def gini_impurity(y):
     class_counts = Counter(y)
     n_samples = len(y)
     impurity = 1 - sum((count / n_samples) ** 2 for count in class_counts.values())
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
+
+
+@app.get("/", response_class=HTMLResponse)
+async def read_home():
+    home_path = os.path.join("app", "static", "index.html")
+    if os.path.exists(home_path):
+        with open(home_path, "r") as file:
+            content = file.read()
+        return HTMLResponse(content=content)
+    else:
+        return HTMLResponse(content="Home page not found", status_code=404)
+
     return impurity
 
 
